@@ -1,0 +1,10 @@
+[package]
+name = "my2048"
+version = "0.1.0"
+authors = ["Creedie"]
+
+
+
+[dependencies]
+
+rand = "0.3.0"
