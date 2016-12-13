@@ -27,73 +27,111 @@ pub fn print_grid(grid : &[[u32; 4];4]){
 pub fn do_move(dir : &Dir, grid :&mut [[u32; 4];4] ){
 	
 	match *dir{
-		Dir::Quit => {// does nothing
-						},
-		// code is worng on part of it, d/s sometimes dont work.. and when they do they go in wrong direction i think..
+		Dir::Quit => {
+			// does nothing
+		},
+
 		Dir::Up => {
-			// ignore row 0, can't do move anything
-			for row in  1..4{
-				for col in 0..4{
-					if grid[row][col] != 0 {
-						for space in 0..row{
-							if grid[space][col] == 0 || grid[space][col] == grid[row][col]  {
-								grid[space][col] += grid[row][col];
-								grid[row][col] = 0;
+			for cidx in 0..4 {
+				for ridx in 0..4 {
+					for tidx in (ridx+1)..4 {
+						if grid[tidx][cidx] != 0 {
+							if grid[ridx][cidx] == 0 {
+								grid[ridx][cidx] += grid[tidx][cidx];
+								grid[tidx][cidx] = 0;
+							}
+							else if grid[ridx][cidx] == grid[tidx][cidx] {
+								grid[ridx][cidx] += grid[tidx][cidx];
+								grid[tidx][cidx] = 0;
+								break;
+							}
+							else {
+								// do nothing
+								break;
 							}
 						}
 					}
-				
 				}
 			}
-				
+			
 		},
 
-		Dir::Down => {
-			for row in  (0..3).rev() {
-                                for col in 0..4{
-                                        if grid[row][col] != 0 { 
-                                                for space in (0..row).rev() {
-                                                        if grid[space][col] == 0 || grid[space][col] == grid[row][col] {
-                                                                grid[row][col] += grid[space][col];
-                                                                grid[space][col] = 0;
-                                                        }
-                                                }
-                                        }
+		Dir::Down =>{
+			for cidx in 0..4 {
+				for ridx in (0..4).rev() {
+					for tidx in (0..ridx).rev() {
+						if grid[tidx][cidx] != 0 {
+							if grid[ridx][cidx] == 0 {
+								grid[ridx][cidx] += grid[tidx][cidx];
+								grid[tidx][cidx] = 0;
+							}
+							else if grid[ridx][cidx] == grid[tidx][cidx] {
+								grid[ridx][cidx] += grid[tidx][cidx];
+								grid[tidx][cidx] = 0;
+								break;
+							}
+							else {
+								// do nothing
+								break;
+							}
+						}
+					}
+				}
+			}
+			
 
-                                }
-                        }
 		},
 
 		Dir::Left => {
-			for row in  0..4{
-                                for col in 0..4{
-                                        if grid[row][col] != 0 { 
-                                                for space in 0..col{
-                                                        if grid[row][space] == 0 || grid[row][space] == grid[row][col] {
-                                                                grid[row][space] += grid[row][col];
-                                                                grid[row][col] = 0;
-                                                        }
-                                                }
-                                        }
+			for row in grid {
+				for cidx in 0..4 {
+					for tidx in (cidx+1)..4 {
+						if row[tidx] != 0 {
+							if row[cidx] == 0 {
+								row[cidx] += row[tidx];
+								row[tidx] = 0;
+							}
+							else if row[cidx] == row[tidx] {
+								row[cidx] += row[tidx];
+								row[tidx] = 0;
+								break;
+							}
+							else {
+								// do nothing
+								break;
+							}
+						}
+					}
+				}
+			}
+			
 
-                                }
-                        }
 		},
 
 		Dir::Right => {
-			for row in  0..4{
-                                for col in (0..4).rev(){
-                                        if grid[row][col] != 0 {
-                                                for space in (0..col).rev(){
-                                                        if grid[row][space] == 0  ||  grid[row][space] == grid[row][col] {
-                                                                grid[row][col] += grid[row][space];
-                                                                grid[row][space] = 0;
-                                                        }
-                                                }
-                                        }
+			for row in grid {
+				for cidx in (0..4).rev() {
+					for tidx in (0..cidx).rev() {
+						if row[tidx] != 0 {
+							if row[cidx] == 0 {
+								row[cidx] += row[tidx];
+								row[tidx] = 0;
+							}
+							else if row[cidx] == row[tidx] {
+								row[cidx] += row[tidx];
+								row[tidx] = 0;
+								break;
+							}
+							else {
+								// do nothing
+								break;
+							}
+						}
+					}
+				}
+			}
+			
 
-                                }
-                        }
 		},
 	}	
 }

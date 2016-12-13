@@ -2,18 +2,17 @@
 mod  my2048;
 
 fn main(){
-
-	println!("This Hello World!");
+	println!("~~~Welcome to 2048!~~~");
+	println!("~~~~~~~~~~~~~~~~~~~~~~");
 	let mut board : [[u32;4];4]  = [[0;4];4];
 	
 	my2048::print_grid(&board);
 	my2048::spawn(&mut board);
 	my2048::print_grid(&board);
 	
-	println!("Starting game loop");
+
 	
 	'gameloop: loop{
-			println!("loop");
 			my2048::spawn(&mut board);
 			if my2048::check_game_over(&board) {
 				break 'gameloop;
